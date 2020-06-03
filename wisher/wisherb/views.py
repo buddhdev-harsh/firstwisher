@@ -60,3 +60,7 @@ def handlelogout(request):
     logout(request)
     messages.success(request, "Logout Succesfully.")
     return redirect('home')
+
+
+def about(request):
+    return render(request,"about.html")
