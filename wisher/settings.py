@@ -123,10 +123,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_URL = '/static/'
+STATIC_URL = '/wisherb/static/wisherb/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,'wisherb/static/wisherb'),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'wisherb/static/wisherb')
+STATIC_TMP = os.path.join(BASE_DIR, 'wisherb/static/wisherb')
 
 django_heroku.settings(locals())
