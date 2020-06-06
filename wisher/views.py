@@ -3,11 +3,27 @@ from django.contrib import messages
 from django.shortcuts import HttpResponse,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate ,login ,logout
+from wisher.models import birthdays
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Create your views here.
 
 def index(request):
-    return render(request,'index.html')
+    infos = birthdays.objects.filter(user__exact = request.user).all()
+    params = {
+        'result':infos,
+    }
+    subject = 'Happy birthday'
+    html_message = render_to_string('index.html', {'context': 'values'})
+    plain_message = strip_tags(html_message)
+    from_email = 'From harahismast@gmail.com'
+    to = 'ht50159@gmail.com'
+    send_mail(subject, plain_message, from_email, [to], html_message=html_message,fail_silently = False)
+    messages.success(request,"mail to  has been sent succesfully!")
+    
+    return render(request,'index.html',params)
 
 def handlesignup(request):
     if request.method == 'POST':
@@ -18,7 +34,7 @@ def handlesignup(request):
         password =request.POST['spassword']
         password2 = request.POST['spassword2']
 
-        # add parameters checking prog   
+           
         if len(username) > 10:
             messages.error(request,"Username must be under 10 characters")
             return redirect('home')
@@ -30,7 +46,7 @@ def handlesignup(request):
         
         if username.isalnum():
             messages.error(request,"do no include numbers in username")
-        # make user 
+         
         myuser = User.objects.create_user(username ,email ,password)
         myuser.first_name = firstname
         myuser.last_name = lastname
@@ -55,6 +71,7 @@ def handlelogin(request):
         else:
             messages.error(request, "Invalid Credentials , please try again")
             return redirect('home')
+        
 
 def handlelogout(request):
     logout(request)
@@ -64,3 +81,74 @@ def handlelogout(request):
 
 def about(request):
     return render(request,"about.html")
+
+def addbirthday(request):
+    return render(request,"addbirthday.html")
+
+def addtodb(request):
+    if request.method == 'POST':
+        username = request.user
+        humanname = request.POST['humanname']
+        humanbirthdate = request.POST['humanbirthdate']
+        humanemail = request.POST['humanemail']
+        humanmsg = request.POST['humanmsg']
+        birthdayready = birthdays(user = username, human=humanname ,birthdate=humanbirthdate , emailtosend=humanemail , msg = humanmsg)
+        birthdayready.save()
+        messages.success(request,"birthday succesfully added.")
+        return redirect("home")
+
+
+    else:
+        return HttpResponse('404 error!')
+
+def remove(request):
+    if request.method == 'POST':
+        username = request.POST['nameofuser']
+        email = request.POST['emailofuser']
+        removeuser = birthdays.objects.filter(human__exact = username).filter(emailtosend = email).get()
+        removeuser.delete()
+        messages.success(request,"removed succesfully")
+        return redirect("home")
+
+def update(request):
+    if request.method == 'POST':
+        username = request.POST['nameofuserup']
+        email = request.POST['emailofuserup']
+        updateuser = birthdays.objects.filter(human__exact = username).filter(emailtosend__exact = email).get()
+        params = {
+            'result':updateuser,
+        }
+        print(updateuser)
+        return render(request,"addbirthday.html",params)
+
+def updatenow(request):
+    if request.method == 'POST':
+        username = request.user
+        humanname = request.POST['humanname']
+        humanbirthdate = request.POST['humanbirthdate']
+        humanemail = request.POST['humanemail']
+        humanmsg = request.POST['humanmsg']
+        updateuser = birthdays.objects.filter(user = username, human=humanname).get()
+        updateuser.emailtosend = humanemail
+        updateuser.birthdate = humanbirthdate
+        updateuser.msg = humanmsg
+        updateuser.save()        
+        
+        messages.success(request,"your request is full-filed.")
+        return redirect("home")
+
+
+def sendemail(request):
+    if request.method == 'POST':
+        name = request.POST['nameofusersm']
+        email = request.POST['emailofusersm']
+        receiver = birthdays.objects.filter(user__exact = request.user).filter(emailtosend__exact = email).filter(human__exact = name).get()
+        subject = 'Happy birthday'
+        html_message = render_to_string('about.html', {'context': 'values'})
+        plain_message = strip_tags(html_message)
+        from_email = 'From harahismast@gmail.com'
+        to = email
+        send_mail(subject, plain_message, from_email, [to], html_message=html_message,fail_silently = False)
+        messages.success(request,"mail to ",name," has been sent succesfully!")
+        receiver.remove()
+        return redirect("home")

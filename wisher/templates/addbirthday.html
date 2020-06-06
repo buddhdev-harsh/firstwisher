@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add birthday</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        media (min-width: 992px) .container,
+        .container-lg,
+        .container-md,
+        .container-sm {
+            max-width: 960px;
+        }
+
+        @media (min-width: 768px) .container,
+        .container-md,
+        .container-sm {
+            max-width: 720px;
+        }
+
+        @media (min-width: 576px) .container,
+        .container-sm {
+            max-width: 540px;
+        }
+
+        @media (min-width: 992px) .container {
+            max-width: 960px;
+        }
+
+        @media (min-width: 768px) .container {
+            max-width: 720px;
+        }
+
+        @media (min-width: 576px) .container {
+            max-width: 540px;
+        }
+
+        .container {
+
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row my-5 justify-content-center">
+            <h2 class="">Add birthday</h2>
+        </div>
+        <div class="row">
+            <div class="col vache">
+                {%if result%}
+
+                <form class="needs-validation" novalidate method="POST" action="updatenow">
+                    {%csrf_token%}
+                    <div class="form-row">
+                        <label for="validationCustom01">Birthday girl/boys name</label>
+                        <input type="text" class="form-control" id="humanname" name="humanname" placeholder="Full name"
+                            value="{{result.human}}" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+
+                    </div>
+                    <div class="form-row my-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustomEmail">His/Her Email-Address</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                </div>
+                                <input type="email" class="form-control" id="humanemail" placeholder="Email-Address"
+                                    value="{{result.emailtosend}}" name="humanemail"
+                                    aria-describedby="inputGroupPrepend" required>
+                                <div class="invalid-feedback">
+                                    Please enter valid email.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustomBirthdate" id="birtherror">His/Her Birthday</label>
+                            <input class="form-control" type="datetime" value="{{result.birthdate.isoformat}}"
+                                placeholder="click to show datepicker" name="humanbirthdate" id="humanbirthdate"
+                                required>
+
+                            <div class="invalid-feedback">
+                                Please enter valid birthdate.
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-4">
+                        <label for="validationCustom03">Message*</label>
+                        <textarea class="form-control" id="humanmsg" name="humanmsg" rows="4" cols="12"
+                            placeholder="Message for her/him">{{result.msg}}</textarea>
+                        <div class="invalid-feedback">
+                            Please enter a message.
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-primary btn-sm" type="submit">Update form</button>
+                </form>
+
+                {%else%}
+                <form class="needs-validation" novalidate method="POST" action="addtodb">
+                    {%csrf_token%}
+                    <div class="form-row">
+                        <label for="validationCustom01">Birthday girl/boys name</label>
+                        <input type="text" class="form-control" id="humanname" name="humanname" placeholder="Full name"
+                            required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+
+                    </div>
+                    <div class="form-row my-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustomEmail">His/Her Email-Address</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                </div>
+                                <input type="email" class="form-control" id="humanemail" placeholder="Email-Address"
+                                    name="humanemail" aria-describedby="inputGroupPrepend" required>
+                                <div class="invalid-feedback">
+                                    Please enter valid email.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustomBirthdate" id="birtherror">His/Her Birthday</label>
+                            <input class="form-control" type="date" placeholder="click to show datepicker"
+                                name="humanbirthdate" id="humanbirthdate" required>
+
+                            <div class="invalid-feedback">
+                                Please enter valid birthdate.
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-4">
+                        <label for="validationCustom03">Message*</label>
+                        <textarea class="form-control" id="humanmsg" name="humanmsg" rows="4" cols="12"
+                            placeholder="Message for her/him"></textarea>
+                        <div class="invalid-feedback">
+                            Please enter a message.
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-primary btn-sm" type="submit">Submit form</button>
+                </form>
+
+                {%endif%}
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        var enterdate = document.getElementById("humanbirthdate").value;
+                        var checkdate = new Date(enterdate);
+                        var now = new Date();
+                        now.setHours(0, 0, 0, 0);
+                        if (checkdate <= now) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            document.getElementById("humanbirthdate").classList.add('is-invalid');
+                        }
+
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+</body>
+
+</html>

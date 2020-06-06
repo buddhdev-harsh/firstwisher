@@ -7,6 +7,46 @@
     <title>wisher</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <style>
+        media (min-width: 992px) .container,
+        .container-lg,
+        .container-md,
+        .container-sm {
+            max-width: 960px;
+        }
+
+        @media (min-width: 768px) .container,
+        .container-md,
+        .container-sm {
+            max-width: 720px;
+        }
+
+        @media (min-width: 576px) .container,
+        .container-sm {
+            max-width: 540px;
+        }
+
+        @media (min-width: 992px) .container {
+            max-width: 960px;
+        }
+
+        @media (min-width: 768px) .container {
+            max-width: 720px;
+        }
+
+        @media (min-width: 576px) .container {
+            max-width: 540px;
+        }
+
+        .container {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,9 +59,12 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Add birthday <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="addbirthday">Add birthday <span class="sr-only">(current)</span></a>
                 </li>
+                {%else %}
+                {%endif%}
 
                 <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -65,7 +108,7 @@
                     </div>
                 </div>
             </div>
-            
+
             {% else %}
             <button type="button" class="btn btn-outline-success ml-1 my-2 my-sm-0" data-toggle="modal"
                 data-target="#Loginmodal">
@@ -75,8 +118,11 @@
                 data-target="#signupmodal">
                 signup
             </button>
+
+
+
             {%endif%}
-            
+
 
             <div class="modal fade" id="Loginmodal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
                 aria-hidden="true">
@@ -175,12 +221,110 @@
     </nav>
     {% for message in messages %}
     <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
-      <strong>Messages:</strong> {{message}}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+        <strong>Messages:</strong> {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     {% endfor %}
+
+    <div class="container">
+        {% if user.is_authenticated %}
+
+
+        {%if result%}
+        {% for i in result %}
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 class="border-bottom border-gray pb-2 mb-0">Birthday Countdown For:{{i.human}}</h6>
+            <p style="font-size: 10px;;">Email:{{i.emailtosend}}</p>
+            <p style = "font-size: 12px;">after sending the mail this will be deleted.if liked it then add more birthdays.</p>
+            <p id="{{i.human}}" style="text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 60px;
+            margin-top: 0px;"> </p>
+
+
+            <div class="d-flex justify-content-center">
+                <form method="POST" action="remove" class="mx-3">
+                    {%csrf_token%}
+                    <input type="hidden" value="{{i.human}}" id="nameofuser" name="nameofuser">
+                    <input type="hidden" value="{{i.emailtosend}}" id="emailofuser" name="emailofuser">
+                    <input type="hidden" value="{{i.birthdate.isoformat}}" id="birthdate">
+                    <button type="submit" class="btn btn-danger mb-2">Remove</button>
+                </form>
+                <form method="POST" action="update" class="mx-3">
+                    {%csrf_token%}
+                    <input type="hidden" value="{{i.human}}" id="nameofuserup" name="nameofuserup">
+                    <input type="hidden" value="{{i.emailtosend}}" id="emailofuserup" name="emailofuserup">
+
+                    <input type="hidden" value="{{i.birthdate.isoformat}}" id="birthdateup">
+                    <button type="submit" class="btn btn-primary mb-2">Update</button>
+                </form>
+                <form method="POST" action="update" id="sendmail" class="mx-3">
+                    {%csrf_token%}
+                    <input type="hidden" value="{{i.human}}" id="nameofusersm" name="nameofusersm">
+                    <input type="hidden" value="{{i.emailtosend}}" id="emailofusersm" name="emailofusersm">
+
+                    <input type="hidden" value="{{i.birthdate.isoformat}}" id="birthdatesm">
+                    <button type="submit" style="visibility: hidden;" class="btn btn-primary mb-2">sendmail</button>
+                </form>
+                
+            </div>
+        </div>
+        <script>
+
+            var countDownDate1 = new Date("{{i.birthdate.isoformat}}");
+
+            var timer1 = document.getElementById("{{i.human}}")
+
+            function countdown(finish_date, timer) {
+
+                var x = setInterval(function () {
+
+                    var now = new Date().getTime();
+
+                    var distance = finish_date - now;
+
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    timer.innerHTML = days + "<span style='font-weight:normal'>d</span> " + hours + "h " + minutes + "m " + seconds + "s ";
+
+
+                    if (distance < 0) {
+                        clearInterval(x);
+                        document.getElementById("sendmail").submit();
+                        timer.remove();
+
+                    }
+                }, 1000);
+            }
+
+            countdown(countDownDate1, timer1)
+
+        </script>
+        {%endfor%}
+        {%else%}
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 class="border-bottom border-gray pb-2 mb-0">Add Birthdays</h6>
+        </div>
+        {%endif%}
+
+
+        {% else %}
+        <div class="jumbotron p-4 p-md-5 mt-5 text-white rounded bg-dark">
+            <div class="col-md-8 px-0">
+                <h1 class="display-7 font-italic">Hey what about being the first wisher to wish some one on birthday...
+                </h1>
+                <p class="lead my-3">well let us help with that ;)</p>
+                <p class="lead mb-0">we will birthday email to your most important person at Scheduled time.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -190,6 +334,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+
 </body>
 
 </html>
