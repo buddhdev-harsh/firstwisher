@@ -9,19 +9,20 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 # Create your views here.
+def afterlogin(request):
+    infoss = birthdays.objects.filter(user__exact = request.user).all()
 
-def index(request):
-    infos = birthdays.objects.filter(user__exact = request.user).count()
-    if infos > 0:
-        infoss = birthdays.objects.filter(user__exact = request.user).all()
-
-        params = {
+    params = {
             'result':infoss,
-        }
+    }
         
-        return render(request,'index.html',params)
-    else:
-        return render(request,'index.html')
+    return render(request,'index.html',params)    
+
+
+
+def beforelogin(request):
+    
+    return render(request,'beforelogin.html')
 
 def handlesignup(request):
     if request.method == 'POST':
@@ -50,7 +51,7 @@ def handlesignup(request):
         myuser.last_name = lastname
         myuser.save()
         messages.success(request, 'Profile is created.')
-        return redirect('home')
+        return redirect('beforelogin')
     else:
         return HttpResponse("Error 404")
 
@@ -64,17 +65,17 @@ def handlelogin(request):
         if user is not None:
             login(request, user)
             messages.success(request,"succesfully logged in.")
-            return redirect('home')
+            return redirect('afterlogin')
         
         else:
             messages.error(request, "Invalid Credentials , please try again")
-            return redirect('home')
+            return redirect('beforelogin')
         
 
 def handlelogout(request):
     logout(request)
     messages.success(request, "Logout Succesfully.")
-    return redirect('home')
+    return redirect('beforelogin')
 
 
 def about(request):
@@ -93,7 +94,7 @@ def addtodb(request):
         birthdayready = birthdays(user = username, human=humanname ,birthdate=humanbirthdate , emailtosend=humanemail , msg = humanmsg)
         birthdayready.save()
         messages.success(request,"birthday succesfully added.")
-        return redirect("home")
+        return redirect("afterlogin")
 
 
     else:
@@ -106,7 +107,7 @@ def remove(request):
         removeuser = birthdays.objects.filter(human__exact = username).filter(emailtosend = email).get()
         removeuser.delete()
         messages.success(request,"removed succesfully")
-        return redirect("home")
+        return redirect("afterlogin")
 
 def update(request):
     if request.method == 'POST':
@@ -133,7 +134,7 @@ def updatenow(request):
         updateuser.save()        
         
         messages.success(request,"your request is full-filed.")
-        return redirect("home")
+        return redirect("afterlogin")
 
 
 def sendemail(request):
@@ -149,4 +150,4 @@ def sendemail(request):
         send_mail(subject, plain_message, from_email, [to], html_message=html_message,fail_silently = False)
         messages.success(request,"mail to ",name," has been sent succesfully!")
         receiver.delete()
-        return redirect("home")
+        return redirect("afterlogin")

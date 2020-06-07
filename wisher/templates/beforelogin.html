@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Wisher</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <style>
+            media (min-width: 992px) .container,
+            .container-lg,
+            .container-md,
+            .container-sm {
+                max-width: 960px;
+            }
+    
+            @media (min-width: 768px) .container,
+            .container-md,
+            .container-sm {
+                max-width: 720px;
+            }
+    
+            @media (min-width: 576px) .container,
+            .container-sm {
+                max-width: 540px;
+            }
+    
+            @media (min-width: 992px) .container {
+                max-width: 960px;
+            }
+    
+            @media (min-width: 768px) .container {
+                max-width: 720px;
+            }
+    
+            @media (min-width: 576px) .container {
+                max-width: 540px;
+            }
+    
+            .container {
+                width: 100%;
+                padding-right: 15px;
+                padding-left: 15px;
+                margin-right: auto;
+                margin-left: auto;
+            }
+        </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">Wisher</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="addbirthday">Add birthday <span class="sr-only">(current)</span></a>
+                </li>
+                {%else %}
+                {%endif%}
+
+                <!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link " href="about" tabindex="-1">Motivation</a>
+                </li>
+            </ul>
+            <button type="button" class="btn btn-outline-success ml-1 my-2 my-sm-0" data-toggle="modal"
+                data-target="#Loginmodal">
+                Login
+            </button>
+            <button type="button" class="btn btn-outline-success ml-1 my-2 my-sm-0" data-toggle="modal"
+                data-target="#signupmodal">
+                signup
+            </button>
+            <div class="modal fade" id="Loginmodal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalCenterTitle">Login</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="handlelogin" autocomplete="on">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="signupemaillab">Email address</label>
+                                    <input type="email" required class="form-control" name="lemail"
+                                        aria-describedby="emailHelp" placeholder="Enter E-mail">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                        anyone else.</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordinpu">Password</label>
+                                    <input type="password" required class="form-control" name="lpassword"
+                                        placeholder="Enter Password">
+                                </div>
+                                <button type="submit" class="btn btn-primary float-right">Submit</button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="signupmodal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalCenterTitle">Sign Up</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form method="POST" action='handlesignup' autocomplete="on">
+
+                                <div class="form-group">
+                                    <label for="signupemaillab">Email address</label>
+                                    <input type="email" required class="form-control" name="semail"
+                                        aria-describedby="emailHelp" placeholder="Enter E-mail">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
+                                        anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="usernameinput">User Name</label>
+                                    <input type="text" required class="form-control" name="susername"
+                                        placeholder="Enter Username">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="firstname">First Name</label>
+                                    <input type="text" required class="form-control" name="sfirstname"
+                                        placeholder="Enter First name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lastname">Last Name</label>
+                                    <input type="text" class="form-control" name="slastname"
+                                        placeholder="Enter Last name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordinpu">Password</label>
+                                    <input type="password" required class="form-control" name="spassword"
+                                        placeholder="Enter Password">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordinput2">Confirm Password</label>
+                                    <input type="password" required class="form-control" name="spassword2"
+                                        placeholder="Re-enter Password">
+                                </div>
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary float-right">Submit</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="jumbotron p-4 p-md-5 mt-5 text-white rounded bg-dark">
+            <div class="col-md-8 px-0">
+                <h1 class="display-7 font-italic">Hey what about being the first wisher to wish some one on birthday...
+                </h1>
+                <p class="lead my-3">well let us help with that ;)</p>
+                <p class="lead mb-0">we will birthday email to your most important person at Scheduled time.</p>
+            </div>
+        </div>
+    </div>
+   
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+</html>
