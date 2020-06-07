@@ -11,11 +11,15 @@ from django.utils.html import strip_tags
 # Create your views here.
 
 def index(request):
-    params = {
-        'result':infos,
-    }
-    
-    return render(request,'index.html',params)
+    if user.is_authenticated:
+        infos = birthdays.objects.filter(user__exact = request.user).all()
+        params = {
+            'result':infos,
+        }
+        
+        return render(request,'index.html',params)
+    else:
+        return render(request,'index.html')
 
 def handlesignup(request):
     if request.method == 'POST':
