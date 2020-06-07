@@ -36,12 +36,12 @@ def handlesignup(request):
            
         if len(username) > 10:
             messages.error(request,"Username must be under 10 characters")
-            return redirect('home')
+            return redirect('beforelogin')
         
 
         if password != password2:
             messages.error(request,"passwords do not match")
-            return redirect('home')
+            return redirect('beforelogin')
         
         if username.isalnum():
             messages.error(request,"do no include numbers in username")
@@ -51,7 +51,7 @@ def handlesignup(request):
         myuser.last_name = lastname
         myuser.save()
         messages.success(request, 'Profile is created.')
-        return redirect('beforelogin')
+        return redirect('afterlogin')
     else:
         return HttpResponse("Error 404")
 
