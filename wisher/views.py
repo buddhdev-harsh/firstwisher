@@ -11,7 +11,6 @@ from django.utils.html import strip_tags
 # Create your views here.
 
 def index(request):
-    infos = birthdays.objects.filter(user__exact = request.user).all()
     params = {
         'result':infos,
     }
