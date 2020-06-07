@@ -11,10 +11,12 @@ from django.utils.html import strip_tags
 # Create your views here.
 
 def index(request):
-    if user.is_authenticated:
-        infos = birthdays.objects.filter(user__exact = request.user).all()
+    infos = birthdays.objects.filter(user__exact = request.user).count()
+    if infos > 0:
+        infoss = birthdays.objects.filter(user__exact = request.user).all()
+
         params = {
-            'result':infos,
+            'result':infoss,
         }
         
         return render(request,'index.html',params)
