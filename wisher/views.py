@@ -78,8 +78,7 @@ def handlelogout(request):
     return redirect('beforelogin')
 
 
-def about(request):
-    return render(request,"about.html")
+
 
 def addbirthday(request):
     return render(request,"addbirthday.html")
