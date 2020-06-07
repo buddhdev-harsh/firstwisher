@@ -15,13 +15,6 @@ def index(request):
     params = {
         'result':infos,
     }
-    subject = 'Happy birthday'
-    html_message = render_to_string('index.html', {'context': 'values'})
-    plain_message = strip_tags(html_message)
-    from_email = 'From harahismast@gmail.com'
-    to = 'ht50159@gmail.com'
-    send_mail(subject, plain_message, from_email, [to], html_message=html_message,fail_silently = False)
-    messages.success(request,"mail to  has been sent succesfully!")
     
     return render(request,'index.html',params)
 
@@ -150,5 +143,5 @@ def sendemail(request):
         to = email
         send_mail(subject, plain_message, from_email, [to], html_message=html_message,fail_silently = False)
         messages.success(request,"mail to ",name," has been sent succesfully!")
-        receiver.remove()
+        receiver.delete()
         return redirect("home")
