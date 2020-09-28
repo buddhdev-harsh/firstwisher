@@ -236,10 +236,10 @@
             <h6 class="border-bottom border-gray pb-2 mb-0">Birthday Countdown For:{{i.human}}</h6>
             <p style="font-size: 10px;;">Email:{{i.emailtosend}}</p>
             <p style = "font-size: 12px;">after sending the mail this will be deleted.if liked it then add more birthdays.</p>
-            <p id="{{i.human}}" style="text-align: center;
+            <p id="{{forloop.counter}}" style="text-align: center;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 60px;
-            margin-top: 0px;"> </p>
+            margin-top: 0px;"></p>
 
 
             <div class="d-flex justify-content-center">
@@ -273,8 +273,8 @@
 
             var countDownDate1 = new Date("{{i.birthdate.isoformat}}");
             countDownDate1.setHours(0,0,0,0);
-            var timer1 = document.getElementById("{{i.human}}")
-
+            var timer1 = document.getElementById("{{forloop.counter}}");
+            console.log(timer1);
             function countdown(finish_date, timer) {
 
                 var x = setInterval(function () {
