@@ -32,5 +32,10 @@ pipeline {
                 }
             }
         }
+    post {
+        always {
+            emailext body: 'A status EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'status'
+        }
+    }
     
 }
