@@ -34,7 +34,7 @@ pipeline {
         }
     post {
         always {
-            emailext body: 'A status EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'status'
+            mail bcc: '', body: 'success', cc: 'harahismast@gmail.com', from: '', replyTo: '', subject: 'status', to: 'ht50159@gmail.com'
         }
     }
     
