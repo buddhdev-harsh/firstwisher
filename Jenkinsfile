@@ -34,7 +34,7 @@ pipeline {
         }
     post {
         always {
-            mail bcc: '', body: 'See ${BUILD_URL}', cc: 'harahismast@gmail.com', from: '', replyTo: '', subject: 'Jenkins: ${JOB_NAME}: Build status is ${currentBuild.currentResult}', to: 'ht50159@gmail.com'
+            mail bcc: '', body: "See ${BUILD_URL}", cc: 'harahismast@gmail.com', from: '', replyTo: '', subject: "Jenkins: ${JOB_NAME}: Build status is ${currentBuild.currentResult}", to: 'ht50159@gmail.com'
         }
     }
     
