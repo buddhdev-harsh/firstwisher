@@ -26,15 +26,15 @@ pipeline {
                     }
                 }
             }
-            stage ('cleaning up...') {
-                steps {
-                    sh "docker rmi $registry:$BUILD_NUMBER"
-                }
-            }
+//             stage ('cleaning up...') {
+//                 steps {
+//                     sh "docker rmi $registry:$BUILD_NUMBER"
+//                 }
+//             }
         }
     post {
         always {
-            mail bcc: '', body: 'Jenkins: $JOB_NAME: Build status is $currentBuild.currentResult', cc: 'harahismast@gmail.com', from: '', replyTo: '', subject: 'status', to: 'ht50159@gmail.com'
+            mail bcc: '', body: '', cc: 'harahismast@gmail.com', from: '', replyTo: '', subject: 'Jenkins: ${JOB_NAME}: Build status is ${currentBuild.currentResult}', to: 'ht50159@gmail.com'
         }
     }
     
