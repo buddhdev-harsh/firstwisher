@@ -8,6 +8,6 @@
   
 ### countdown of remaining time will be started <br>
   <img src="https://github.com/harshdevl/firstwisher/blob/master/readme/pic4.png" width="1400" height="1000"><br>
-// testing jenkins polling SCM
+
 ### also user can update or change anything for given data about birthday (Delete / update)<br>
   <img src="https://github.com/harshdevl/firstwisher/blob/master/readme/pic3.png" width="1400" height="1000"><br>
