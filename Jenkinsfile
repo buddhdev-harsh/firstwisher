@@ -10,7 +10,7 @@ pipeline {
                     checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'harshdevl', url: 'git@github.com:harshdevl/firstwisher.git']]])
                 }
             }
-            stage ('building Docker image...') {
+            stage ('building Docker image(will take 3-4 minutes)...') {
                 steps {
                     script {
                         dockerImage = docker.build registry + ":$BUILD_NUMBER" 
