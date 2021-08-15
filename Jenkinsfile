@@ -26,11 +26,11 @@ pipeline {
                     }
                 }
             }
-//             stage ('cleaning up...') {
-//                 steps {
-//                     sh "docker rmi $registry:$BUILD_NUMBER"
-//                 }
-//             }
+            stage ('cleaning up...') {
+                steps {
+                    sh "docker rmi $registry:$BUILD_NUMBER"
+                }
+            }
         }
     post {
         always {
