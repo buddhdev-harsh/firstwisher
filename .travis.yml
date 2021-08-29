@@ -9,7 +9,7 @@ script:
   
 after_success:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - docker tag back $DOCKER_USER/wisher:$TRAVIS_BUILD_NUMBER
-  - docker push $DOCKER_USER/wisher:$TRAVIS_BUILD_NUMBER
-  - docker tag back $DOCKER_USER/wisher:latest
-  - docker push $DOCKER_USER/wisher:latest
+  - docker tag back $DOCKER_USERNAME/wisher:$TRAVIS_BUILD_NUMBER
+  - docker push $DOCKER_USERNAME/wisher:$TRAVIS_BUILD_NUMBER
+  - docker tag back $DOCKER_USERNAME/wisher:latest
+  - docker push $DOCKER_USERNAME/wisher:latest
