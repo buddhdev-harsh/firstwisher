@@ -1,15 +1,15 @@
-os: windows
 
 language: python
 
 services: 
   - docker
 
-install:
+script:
   - docker build -t harshdevl/wisher:latest .
-
-deploy:
-  provider: script
-  script: bash docker_push.sh
-  on:
-    branch: master
+  
+after_success:
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker tag back $DOCKER_USER/wisher:$TRAVIS_BUILD_NUMBER
+  - docker push $DOCKER_USER/wisher:$TRAVIS_BUILD_NUMBER
+  - docker tag back $DOCKER_USER/wisher:latest
+  - docker push $DOCKER_USER/wisher:latest
