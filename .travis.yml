@@ -1,6 +1,6 @@
 language: python
 
-pyhton: 
+python: 
   - "3.6"
 
 services: 
@@ -10,6 +10,6 @@ install:
   - pip install -r requirements.txt
 
 after_install:
-  - docker build -t harshdevl/firstwisher:latest .
+  - docker build -t harshdevl/wisher:latest .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push harshdevl/firtswisher:latest
+  - docker push harshdevl/wisher:latest
