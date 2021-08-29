@@ -8,10 +8,9 @@ services:
 
 install:
   - docker build -t harshdevl/wisher:latest .
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 deploy:
   provider: script
-  script: bash docker_push
+  script: bash docker_push.sh
   on:
     branch: master
