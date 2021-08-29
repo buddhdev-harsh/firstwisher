@@ -6,10 +6,7 @@ python:
 services: 
   - docker
 
-install: 
-  - pip install -r requirements.txt
-
-after_install:
+install:
   - docker build -t harshdevl/wisher:latest .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push harshdevl/wisher:latest
