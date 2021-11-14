@@ -28,4 +28,6 @@ jobs:
             heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
             heroku_email_address: 'ht5015@gmail.com'
             use_git: true
+            working-directory: ./firstwisher/
+            
 
