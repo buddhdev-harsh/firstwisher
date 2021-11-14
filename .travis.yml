@@ -1,15 +1,15 @@
 
-language: python
+# language: python
 
-services: 
-  - docker
+# services: 
+#   - docker
 
-script:
-  - docker build -t harshdevl/wisher:latest .
+# script:
+#   - docker build -t harshdevl/wisher:latest .
   
-after_success:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - docker tag back $DOCKER_USERNAME/wisher:$TRAVIS_BUILD_NUMBER
-  - docker push $DOCKER_USERNAME/wisher:$TRAVIS_BUILD_NUMBER
-  - docker tag back $DOCKER_USERNAME/wisher:latest
-  - docker push $DOCKER_USERNAME/wisher:latest
+# after_success:
+#   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+#   - docker tag back $DOCKER_USERNAME/wisher:$TRAVIS_BUILD_NUMBER
+#   - docker push $DOCKER_USERNAME/wisher:$TRAVIS_BUILD_NUMBER
+#   - docker tag back $DOCKER_USERNAME/wisher:latest
+#   - docker push $DOCKER_USERNAME/wisher:latest
