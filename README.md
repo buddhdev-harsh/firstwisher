@@ -1,3 +1,6 @@
+# Important :  
+currently this website is deployed using github pages (to showcase the functionalities of this webapp) because of which only frontend works.
+
 # firstwisher
 ## website for sending mail to friends automatically on their birthday at 12am 
  ### Home screen:<br>
