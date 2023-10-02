@@ -230,11 +230,6 @@ Welcome to First Wisher, the ultimate birthday scheduler and celebration compani
         </div>
     </nav>
 
-
-    {% with scheduleTimeCookie=request.COOKIES.tempFormDate %}
-    {% if scheduleTimeCookie %}
-
-
     <script>
         const openModalBtn = document.getElementById('openModalBtn');
         const closeModalBtn = document.getElementById('closeModalBtn');
@@ -370,18 +365,6 @@ Welcome to First Wisher, the ultimate birthday scheduler and celebration compani
             createTimer(birthdayData);
         }
     </script>
-
-    {%else%}
-    <div class="jumbotron p-4 p-md-5 mt-5 text-white rounded bg-dark">
-        <div class="col-md-8 px-0">
-            <h1 class="display-7 font-italic">Hey what about being the first wisher to wish some one on birthday...
-            </h1>
-            <p class="lead my-3">well let us help with that ;)</p>
-            <p class="lead mb-0">we will help you to become the first one on sending birthday emails on a scheduled time.</p>
-        </div>
-    </div>
-    {% endif %}
-    {% endwith %}
 
 
 
