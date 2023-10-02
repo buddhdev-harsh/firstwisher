@@ -40,12 +40,83 @@
         }
 
         .container {
-            width: 100%;
+            width: 70%;
             padding-right: 15px;
             padding-left: 15px;
             margin-right: auto;
             margin-left: auto;
         }
+
+        .timerbody {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            display: flex;
+            width: fit-content;
+            height: fit-content;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timer-container {
+
+            background-color: transparent;
+            position: relative;
+            width: max-content;
+        }
+
+        .timer {
+            font-size: 48px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(15, 12, 12, 0.5);
+        }
+        #openModalBtn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.7); /* Black background with opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
     </style>
 </head>
 
@@ -59,12 +130,68 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                {% if user.is_authenticated %}
+
                 <li class="nav-item active">
                     <a class="nav-link" href="addbirthday">Add birthday <span class="sr-only">(current)</span></a>
                 </li>
-                {%else %}
-                {%endif%}
+
+                <button id="openModalBtn">Website Info</button>
+
+                <!-- Hidden modal container -->
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <!-- Popup content goes here -->
+                        <span class="close" id="closeModalBtn">&times;</span>
+                        <h2>Website Information</h2>
+                        <p>
+<h3>First Wisher:</h3>
+
+<i>Description:
+<br>
+Welcome to First Wisher, the ultimate birthday scheduler and celebration companion! With First Wisher, you can effortlessly manage and schedule multiple birthdays, ensuring you never miss a special moment. Say goodbye to last-minute greetings and hello to seamless, heartfelt birthday wishes.
+</i>
+<br>
+<h3>Key Features:</h3>
+<br>
+<b style="justify-content: center;">
+- Multi-Schedule Management: Easily organize and manage birthdays for all your loved ones in one place.<br>
+- Interactive Timers: Watch as our interactive timers count down to each birthday, creating anticipation and excitement.<br>
+- Automated Email Greetings:Set it and forget it! We'll send heartfelt birthday messages to your recipients right on time.<br>
+- Customizable Messages: Personalize your birthday wishes with messages that reflect your love and affection.<br>
+- User-Friendly Interface: Our intuitive interface makes scheduling and managing birthdays a breeze.<br>
+</b>
+<br>
+
+<h3>How It Works:</h3>
+<br>
+<b>
+1. Schedule Birthdays: Add important birthdays with just a few clicks, including recipient names and email addresses.<br>
+
+2. Set Timers: Watch as timers tick down to each birthday, making the anticipation even more delightful.<br>
+
+3. Automated Greetings: Sit back and relax as we send out your customized birthday wishes right on schedule.<br>
+
+4. Spread Joy: Delight your friends and family with heartfelt messages, ensuring their special day starts with a smile.<br>
+</b>
+<br>
+
+<h3>Why Choose First Wisher?</h3>
+<br>
+<b>
+- Effortless Celebration: First Wisher, takes the stress out of remembering and celebrating birthdays.<br>
+- Thoughtful Gestures: Our personalized messages show you care, even when you can't be there in person.<br>
+- User-Focused: We're committed to providing you with a seamless, user-friendly experience.<br>
+- Never Miss a Birthday: With our reminders and timers, you'll always be the first to extend your warm wishes.<br>
+</b>
+<br>
+
+<h3>Join the Celebration:</h3>
+<br>
+
+<i>Don't miss out on the joy of celebrating birthdays in a whole new way. Experience the convenience, excitement, and heartfelt connections First Wisher offers. Start scheduling and spreading smiles today!</i>
+
+</div>
+                </div>
 
                 <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -78,9 +205,8 @@
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
                 </li> -->
-                
+
             </ul>
-            {% if user.is_authenticated %}
             <div class="dropdown">
                 <button class="btn btn-info dropdown-toggle ml-2" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,234 +219,173 @@
                         </div>
 
                         <div class="entity">
-                            <a class="dropdown-item border rounded my-1" href="/profile">Profile<svg
-                                    class="bi bi-person-fill ml-1 mb-1" width="1em" height="1em" viewBox="0 0 16 16"
-                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                                </svg></a>
 
-                            <a class="dropdown-item border rounded my-1" href="/handlelogout">Logout</a>
+
                         </div>
 
                     </div>
                 </div>
             </div>
 
-            {% else %}
-            <button type="button" class="btn btn-outline-success ml-1 my-2 my-sm-0" data-toggle="modal"
-                data-target="#Loginmodal">
-                Login
-            </button>
-            <button type="button" class="btn btn-outline-success ml-1 my-2 my-sm-0" data-toggle="modal"
-                data-target="#signupmodal">
-                signup
-            </button>
-
-
-
-            {%endif%}
-
-
-            <div class="modal fade" id="Loginmodal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="ModalCenterTitle">Login</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form method="post" action="handlelogin" autocomplete="on">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <label for="signupemaillab">Email address</label>
-                                    <input type="email" required class="form-control" name="lemail"
-                                        aria-describedby="emailHelp" placeholder="Enter E-mail">
-                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
-                                        anyone else.</small>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="passwordinpu">Password</label>
-                                    <input type="password" required class="form-control" name="lpassword"
-                                        placeholder="Enter Password">
-                                </div>
-                                <button type="submit" class="btn btn-primary float-right">Submit</button>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="signupmodal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="ModalCenterTitle">Sign Up</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-
-                            <form method="POST" action='handlesignup' autocomplete="on">
-
-                                <div class="form-group">
-                                    <label for="signupemaillab">Email address</label>
-                                    <input type="email" required class="form-control" name="semail"
-                                        aria-describedby="emailHelp" placeholder="Enter E-mail">
-                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with
-                                        anyone else.</small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="usernameinput">User Name</label>
-                                    <input type="text" required class="form-control" name="susername"
-                                        placeholder="Enter Username">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="firstname">First Name</label>
-                                    <input type="text" required class="form-control" name="sfirstname"
-                                        placeholder="Enter First name">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="lastname">Last Name</label>
-                                    <input type="text" class="form-control" name="slastname"
-                                        placeholder="Enter Last name">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="passwordinpu">Password</label>
-                                    <input type="password" required class="form-control" name="spassword"
-                                        placeholder="Enter Password">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="passwordinput2">Confirm Password</label>
-                                    <input type="password" required class="form-control" name="spassword2"
-                                        placeholder="Re-enter Password">
-                                </div>
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary float-right">Submit</button>
-
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
         </div>
     </nav>
-    {% for message in messages %}
-    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
-        <strong>Messages:</strong> {{message}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    {% endfor %}
-
-    <div class="container">
-        {% if user.is_authenticated %}
 
 
-        {%if result%}
-        {% for i in result %}
-        <div class="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Birthday Countdown For:{{i.human}}</h6>
-            <p style="font-size: 10px;;">Email:{{i.emailtosend}}</p>
-            <p style = "font-size: 12px;">after sending the mail this will be deleted.if liked it then add more birthdays.</p>
-            <p id="{{forloop.counter}}" style="text-align: center;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 60px;
-            margin-top: 0px;"></p>
+    {% with scheduleTimeCookie=request.COOKIES.tempFormDate %}
+    {% if scheduleTimeCookie %}
 
 
-            <div class="d-flex justify-content-center">
-                <form method="POST" action="remove" class="mx-3">
-                    {%csrf_token%}
-                    <input type="hidden" value="{{i.human}}" id="nameofuser" name="nameofuser">
-                    <input type="hidden" value="{{i.emailtosend}}" id="emailofuser" name="emailofuser">
-                    <input type="hidden" value="{{i.birthdate.isoformat}}" id="birthdate">
-                    <button type="submit" class="btn btn-danger mb-2">Remove</button>
-                </form>
-                <form method="POST" action="update" class="mx-3">
-                    {%csrf_token%}
-                    <input type="hidden" value="{{i.human}}" id="nameofuserup" name="nameofuserup">
-                    <input type="hidden" value="{{i.emailtosend}}" id="emailofuserup" name="emailofuserup">
+    <script>
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modal = document.getElementById('myModal');
 
-                    <input type="hidden" value="{{i.birthdate.isoformat}}" id="birthdateup">
-                    <button type="submit" class="btn btn-primary mb-2">Update</button>
-                </form>
-                <form method="POST" action="sendemail" id="{{i.emailtosend}}" class="mx-3">
-                    {%csrf_token%}
-                    <input type="hidden" value="{{i.human}}" id="nameofusersm" name="nameofusersm">
-                    <input type="hidden" value="{{i.emailtosend}}" id="emailofusersm" name="emailofusersm">
+        // Open the modal when the button is clicked
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
 
-                    <input type="hidden" value="{{i.birthdate.isoformat}}" id="birthdatesm">
-                    <button type="submit" style="visibility: hidden;" class="btn btn-primary mb-2">sendmail</button>
-                </form>
-                
-            </div>
-        </div>
-        <script>
+        // Close the modal when the close button or outside the modal is clicked
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
 
-            var countDownDate1 = new Date("{{i.birthdate.isoformat}}");
-            countDownDate1.setHours(0,0,0,0);
-            var timer1 = document.getElementById("{{forloop.counter}}");
-            console.log(timer1);
-            function countdown(finish_date, timer) {
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        // Function to retrieve a cookie by name
+        function getCookie(name) {
+            const cookieValue = document.cookie
+                .split('; ')
+                .find(cookie => cookie.startsWith(name + '='));
+            if (cookieValue) {
+                return cookieValue.split('=')[1];
+            }
+            return null;
+        }
+        function removeObjectFromArray(array, objectToRemove) {
+            return array.filter(item => item.email !== objectToRemove.email);
+        }
+        function removeBirthdayObject(emailToRemove) {
+            // Retrieve the current array from the cookie
+            const birthdayDataArray = JSON.parse(decodeURIComponent(getCookie('tempFormDate')));
 
-                var x = setInterval(function () {
+            // Find and remove the specific object by email
+            const updatedArray = removeObjectFromArray(birthdayDataArray, { email: emailToRemove });
+            console.log(updatedArray);
+            if (updatedArray.length === 0) {
+                // If it's empty, delete the entire cookie
+                document.cookie = 'tempFormDate=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            } else {
+                // Update the cookie with the modified array
+                document.cookie = `tempFormDate=${encodeURIComponent(JSON.stringify(updatedArray))}; path=/;`;
+            }
+            // Update the cookie with the modified array
+            document.cookie = `tempFormDate=${encodeURIComponent(JSON.stringify(updatedArray))}; path=/;`;
 
-                    var now = new Date().getTime();
+            // Remove the timer container from the page
+            // Sanitize the email address to be a valid class name
+            const sanitizedEmail = emailToRemove.replace(/[^a-zA-Z0-9-_]/g, '_');
 
-                    var distance = finish_date - now;
+            // Select the timer container element using the sanitized email as a class name
+            const timerContainer = document.querySelector(`.timerForName-${sanitizedEmail}`);
 
-                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            if (timerContainer) {
+                timerContainer.remove();
+            }
+        }
 
+        // Function to create a timer for a birthday
+        function createTimer(birthdayData) {
+            const scheduleTime = new Date(birthdayData.birthdate);
+            scheduleTime.setHours(0, 0, 0, 0);
+            const timediv = document.createElement('div');
+            timediv.className = 'my-3 p-3 bg-white rounded shadow-sm';
+            document.body.appendChild(timediv);
+            // heading code
+            const heading = document.createElement('h6');
+            const name = document.createElement('p');
+            heading.className = 'border-bottom border-gray pb-2 mb-0';
+            
+            const emailToRemove = birthdayData.email;
+            const sanitizedEmail = emailToRemove.replace(/[^a-zA-Z0-9-_]/g, '_');
+
+            name.className =`.timerForName-${sanitizedEmail}`;
+            heading.innerHTML = "Timer For: " + birthdayData.name;
+            name.innerHTML = "Email: " + birthdayData.email;
+
+            timediv.appendChild(heading);
+            timediv.appendChild(name);
+
+            const timerbody = document.createElement('div');
+            timerbody.className = 'timerbody';
+            timediv.appendChild(timerbody);
+
+            const timerContainer = document.createElement('div');
+            timerContainer.className = 'timer-container';
+            timerbody.appendChild(timerContainer);
+
+            const timer = document.createElement('p');
+            timer.className = 'timer';
+            timerContainer.appendChild(timer);
+
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.className = 'btn btn-danger mb-2';
+            removeButton.addEventListener('click', function () {
+                // Call the function to remove the specific birthday object
+                removeBirthdayObject(birthdayData.email);
+                location.reload();
+            });
+            timediv.appendChild(removeButton);
+
+            function countdown(finish_date) {
+                const x = setInterval(function () {
+                    const now = new Date().getTime();
+                    const distance = finish_date - now;
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
                     timer.innerHTML = days + "<span style='font-weight:normal'>d</span> " + hours + "h " + minutes + "m " + seconds + "s ";
-
-
                     if (distance < 0) {
                         clearInterval(x);
-                        document.getElementById("{{i.emailtosend}}").submit();
                         timer.remove();
-
                     }
                 }, 1000);
             }
 
-            countdown(countDownDate1, timer1)
+            countdown(scheduleTime);
+        }
 
-        </script>
-        {%endfor%}
-        {%else%}
-        <div class="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Add Birthdays</h6>
+        // Retrieve the array of birthdays from the cookie
+        const birthdayDataArray = JSON.parse(decodeURIComponent(getCookie('tempFormDate')));
+        console.log("birthdate" + birthdayDataArray)
+
+        // Create timers for each birthday
+        for (const birthdayData of birthdayDataArray) {
+            createTimer(birthdayData);
+        }
+    </script>
+
+    {%else%}
+    <div class="jumbotron p-4 p-md-5 mt-5 text-white rounded bg-dark">
+        <div class="col-md-8 px-0">
+            <h1 class="display-7 font-italic">Hey what about being the first wisher to wish some one on birthday...
+            </h1>
+            <p class="lead my-3">well let us help with that ;)</p>
+            <p class="lead mb-0">we will birthday email to your most important person at Scheduled time.</p>
         </div>
-        {%endif%}
+    </div>
+    {% endif %}
+    {% endwith %}
 
 
-        {% else %}
-        <div class="jumbotron p-4 p-md-5 mt-5 text-white rounded bg-dark">
-            <div class="col-md-8 px-0">
-                <h1 class="display-7 font-italic">Hey what about being the first wisher to wish some one on birthday...
-                </h1>
-                <p class="lead my-3">well let us help with that ;)</p>
-                <p class="lead mb-0">we will birthday email to your most important person at Scheduled time.</p>
-            </div>
-        </div>
-        {% endif %}
+
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
