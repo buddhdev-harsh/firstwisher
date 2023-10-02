@@ -10,14 +10,18 @@ from django.utils.html import strip_tags
 
 # Create your views here.
 def afterlogin(request):
-    infoss = birthdays.objects.filter(user__exact = request.user).all()
-
-    params = {
+    try:
+        infoss = birthdays.objects.filter(user__exact = request.user).all()
+    except:
+        return render(request, 'index.html')
+    if infoss:
+        params = {
             'result':infoss,
-    }
-        
-    return render(request,'index.html',params)    
-
+        }
+            
+        return render(request,'index.html',params)    
+    else:
+        return render(request, 'index.html')
 
 
 def beforelogin(request):
@@ -150,3 +154,4 @@ def sendemail(request):
         messages.success(request,"mail to ",name," has been sent succesfully!")
         receiver.delete()
         return redirect("afterlogin")
+    

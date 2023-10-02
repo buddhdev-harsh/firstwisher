@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -210,4 +210,132 @@
     </script>
 </body>
 
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Birthday</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+
+        .container h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add Birthday</h2>
+        <form id="birthdayForm" action="index.html">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="birthdate">Birthdate:</label>
+                <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+            </div>
+
+            <button type="submit" class="btn btn-submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+// Function to set a cookie with the array of birthdays
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    // Ensure that the value is properly serialized as JSON
+    document.cookie = name + "=" + encodeURIComponent(JSON.stringify(value)) + ";" + expires + ";path=/";
+}
+
+// Function to retrieve a cookie by name and parse it as JSON
+function getCookieAsJSON(name) {
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(cookie => cookie.startsWith(name + '='));
+    if (cookieValue) {
+        const encodedValue = cookieValue.split('=')[1];
+        return JSON.parse(decodeURIComponent(encodedValue));
+    }
+    return null;
+}
+
+// ...
+function addBirthdayToArray(birthdays, name, email, birthdate) {
+    birthdays.push({ name, email, birthdate });
+}
+// Event listener for form submission
+document.getElementById('birthdayForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Retrieve form data
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const birthdate = document.getElementById('birthdate').value;
+
+    // Retrieve the existing array of birthdays from the cookie
+    let birthdays = getCookieAsJSON('tempFormDate');
+    if (!birthdays) {
+        birthdays = [];
+    }
+
+    // Add the new birthday to the array
+    addBirthdayToArray(birthdays, name, email, birthdate);
+
+    // Store the updated array back in the cookie
+    setCookie('tempFormDate', birthdays, 30); // Store data for 30 days
+
+    // Display an alert (optional)
+    alert('Birthday data stored in a cookie.');
+
+    // Delay the redirection to ensure the cookie is set
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second (adjust as needed)
+
+    // Redirect to another page
+    window.location.href = "index.html";
+});
+
+    </script>
+</body>
 </html>
