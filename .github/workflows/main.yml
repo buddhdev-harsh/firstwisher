@@ -1,33 +1,33 @@
-# This is a basic workflow to help you get started with Actions
+# # This is a basic workflow to help you get started with Actions
 
-name: heroku deployment action
+# name: heroku deployment action
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+# # Controls when the workflow will run
+# on:
+#   # Triggers the workflow on push or pull request events but only for the master branch
+#   push:
+#     branches: [ master ]
+#   pull_request:
+#     branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+#   # Allows you to run this workflow manually from the Actions tab
+#   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  heroku_git_deploy_job:
-      runs-on: ubuntu-latest
-      name: Git Deploy job- A job to deploy django app to heroku using git
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-        - name: Deploy django to heroku
-          uses: nyakaz73/heroku-django-deploy@v0.68 
-          with: 
-            heroku_app_name : ${{ secrets.HEROKU_APP_NAME }}
-            heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-            heroku_email_address: 'ht5015@gmail.com'
-            use_docker: true
-            working-directory: ./firstwisher/
+# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# jobs:
+#   heroku_git_deploy_job:
+#       runs-on: ubuntu-latest
+#       name: Git Deploy job- A job to deploy django app to heroku using git
+#       steps:
+#         - name: Checkout
+#           uses: actions/checkout@v2
+#         - name: Deploy django to heroku
+#           uses: nyakaz73/heroku-django-deploy@v0.68 
+#           with: 
+#             heroku_app_name : ${{ secrets.HEROKU_APP_NAME }}
+#             heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+#             heroku_email_address: 'ht5015@gmail.com'
+#             use_docker: true
+#             working-directory: ./firstwisher/
             
 
